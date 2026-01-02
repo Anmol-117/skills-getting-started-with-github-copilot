@@ -23,9 +23,45 @@ app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
 activities = {
     "Chess Club": {
         "description": "Learn strategies and compete in chess tournaments",
-        "schedule": "Fridays, 3:30 PM - 5:00 PM",
-        "max_participants": 12,
-        "participants": ["michael@mergington.edu", "daniel@mergington.edu"]
+            "schedule": "Fridays, 3:30 PM - 5:00 PM",
+            "max_participants": 12,
+            "participants": ["michael@mergington.edu", "daniel@mergington.edu"]
+        },
+        "Basketball": {
+            "description": "Team sport focusing on basketball skills and competition",
+            "schedule": "Mondays and Wednesdays, 4:00 PM - 5:30 PM",
+            "max_participants": 15,
+            "participants": ["james@mergington.edu"]
+        },
+        "Soccer": {
+            "description": "Outdoor soccer league and friendly matches",
+            "schedule": "Tuesdays and Thursdays, 3:30 PM - 5:00 PM",
+            "max_participants": 22,
+            "participants": ["alex@mergington.edu", "jordan@mergington.edu"]
+        },
+        "Debate Club": {
+            "description": "Develop public speaking and critical thinking skills",
+            "schedule": "Wednesdays, 3:30 PM - 4:30 PM",
+            "max_participants": 18,
+            "participants": ["sarah@mergington.edu"]
+        },
+        "Science Olympiad": {
+            "description": "Compete in science competitions and experiments",
+            "schedule": "Saturdays, 10:00 AM - 12:00 PM",
+            "max_participants": 15,
+            "participants": ["lisa@mergington.edu", "tom@mergington.edu"]
+        },
+        "Theater Club": {
+            "description": "Perform in school plays and musicals",
+            "schedule": "Thursdays, 4:00 PM - 5:30 PM",
+            "max_participants": 25,
+            "participants": ["isabella@mergington.edu"]
+        },
+        "Art Studio": {
+            "description": "Explore painting, drawing, and sculpture techniques",
+            "schedule": "Mondays and Fridays, 3:30 PM - 5:00 PM",
+            "max_participants": 20,
+            "participants": ["maya@mergington.edu", "lucas@mergington.edu"]
     },
     "Programming Class": {
         "description": "Learn programming fundamentals and build software projects",
@@ -61,7 +97,9 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
-
+    # validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up for this activity")
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
